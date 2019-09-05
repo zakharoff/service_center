@@ -9,8 +9,10 @@
     <%= javascript_pack_tag 'application' %>
 
     <% if client_signed_in? %>
+      <%= javascript_pack_tag 'hello_client' %>
       <%= link_to 'Log out', destroy_client_session_path, method: :delete %>
     <% elsif staff_signed_in? %>
+      <%= javascript_pack_tag 'hello_staff' %>
       <%= link_to 'Log out', destroy_staff_session_path, method: :delete %>
     <% else %>
       <%= link_to 'Log in as client', new_client_session_path %>
