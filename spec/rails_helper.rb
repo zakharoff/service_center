@@ -37,6 +37,8 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include ControllerHelpers, type: :controller
   config.include FeatureHelpers, type: :feature
+  config.include Requests::AuthHelpers::Includables, type: :request
+  config.extend Requests::AuthHelpers::Extensions, type: :request
 
   Capybara.javascript_driver = :selenium_chrome_headless
 

@@ -3,4 +3,6 @@ class Staff < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable,
          :recoverable, :rememberable, :validatable
+
+  include DeviseTokenAuth::Concerns::User
 end

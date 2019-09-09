@@ -6,6 +6,13 @@ Rails.application.routes.draw do
       sessions: 'staffs/sessions'
   }
 
+  namespace :api do
+    namespace :v1 do
+      mount_devise_token_auth_for 'Client', at: 'client_auth'
+      mount_devise_token_auth_for 'Staff', at: 'staff_auth'
+    end
+  end
+
   root "application#index"
 
   namespace :clients do
