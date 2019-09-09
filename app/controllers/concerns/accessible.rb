@@ -8,10 +8,10 @@ module Accessible
   def check_user
     if current_staff
       flash.clear
-      redirect_to(root_path) && return
+      redirect_to(staffs_home_index_path) && return
     elsif current_client
       flash.clear
-      redirect_to(root_path) && return
+      redirect_to(clients_home_index_path) && return
     end
   end
 end

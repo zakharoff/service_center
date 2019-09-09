@@ -7,4 +7,11 @@ Rails.application.routes.draw do
   }
 
   root "application#index"
+
+  namespace :clients do
+    resources :home, only: [:index]
+  end
+  namespace :staffs do
+    resources :home, only: [:index]
+  end
 end
