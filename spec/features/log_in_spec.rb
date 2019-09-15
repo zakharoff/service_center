@@ -15,7 +15,7 @@ feature 'Log in app' do
       fill_in 'Password', with: staff.password
       click_on 'Log in'
 
-      expect(page).to have_content 'Hello staff!'
+      expect(page).to have_content staff.email
       expect(page).to have_current_path(staffs_home_index_path)
     end
 
@@ -39,7 +39,7 @@ feature 'Log in app' do
       fill_in 'Password', with: client.password
       click_on 'Log in'
 
-      expect(page).to have_content 'Hello client!'
+      expect(page).to have_content client.email
       expect(page).to have_current_path(clients_home_index_path)
     end
 

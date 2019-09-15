@@ -5,4 +5,8 @@ class Clients::HomeController < ApplicationController
 
   def index
   end
+
+  def user
+    @user = current_client
+  end
 end

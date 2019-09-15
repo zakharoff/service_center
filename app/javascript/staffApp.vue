@@ -1,21 +1,47 @@
 <template lang="pug">
   #app
-    p {{ message }}
+    <navbar :user="user"></navbar>
+    h1 {{ message }}
 </template>
 
 <script>
-export default {
-  data: function () {
-    return {
-      message: "Hello staff!"
+  import Navbar from 'components/navbar.vue'
+  import { axiosUser } from 'api/index.js'
+
+  export default {
+    data: function () {
+      return {
+        user: {},
+        message: "Service center"
+      }
+    },
+    created() {
+      this.fetchUser()
+    },
+    methods: {
+      fetchUser() {
+        axiosUser('/staffs/home/user')
+          .then(response => {
+            this.user = response.data.user
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      }
+    },
+    components: {
+      Navbar
     }
   }
-}
 </script>
 
 <style lang="scss">
-p {
-  font-size: 2em;
-  text-align: center;
-}
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  h1 {
+    font-size: 2em;
+    text-align: center;
+  }
 </style>
