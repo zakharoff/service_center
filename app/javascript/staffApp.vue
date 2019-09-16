@@ -1,6 +1,6 @@
 <template lang="pug">
   #app
-    <navbar :user="user"></navbar>
+    navbar(:user="user")
     h1 {{ message }}
 </template>
 
