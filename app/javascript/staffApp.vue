@@ -2,10 +2,12 @@
   #app
     navbar(:user="user")
     h1 {{ message }}
+    dashboard
 </template>
 
 <script>
   import Navbar from 'components/navbar.vue'
+  import Dashboard from 'staff/components/dashboard.vue'
   import { axiosUser } from 'api/index.js'
 
   export default {
@@ -30,7 +32,8 @@
       }
     },
     components: {
-      Navbar
+      Navbar,
+      Dashboard
     }
   }
 </script>
