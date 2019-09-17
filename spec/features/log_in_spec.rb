@@ -2,7 +2,8 @@ require 'rails_helper'
 
 feature 'Log in app' do
   given(:staff) { Staff.create!(email: 'email_stuff@test.com', password: '12345678') }
-  given(:client) { Client.create!(email: 'email_client@test.com', password: '12345678') }
+  given(:client) { Client.create!(email: 'email_client@test.com', password: '12345678',
+                                  fullname: 'Derp Bob', phone: '12345678') }
 
   describe 'Staff' do
     background do
