@@ -22,7 +22,7 @@
 
 <script>
   import Client from './client.vue'
-  import { axiosUser } from 'api/index.js'
+  import { backend } from 'api/index.js'
 
   let reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,})$/
 
@@ -58,7 +58,7 @@
         return !(handler.length < 8)
       },
       fetchClients() {
-        axiosUser('/staffs/home/clients')
+        backend.staff.clients()
           .then(response => {
             this.clients = response.data
           })

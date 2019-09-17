@@ -1,9 +1,22 @@
 import axios from 'axios'
 
-export function axiosUser(url) {
-  return axios.get(url);
-}
+let token = document.getElementsByName('csrf-token')[0].getAttribute('content');
+axios.defaults.headers.common['X-CSRF-Token'] = token;
+axios.defaults.headers.common['Accept'] = 'application/json';
 
-export function axiosPost(url, params) {
-  return axios.post(url, params)
-}
+const adapter = axios.create({
+  baseURL: 'http://localhost:3000'
+});
+
+const backend = {
+  client: {
+    current: () => adapter.get('/clients/home/user')
+  },
+  staff: {
+    current: () => adapter.get('/staffs/home/user'),
+    clients: () => adapter.get('/staffs/home/clients'),
+    createClient: (params) => adapter.post('/staffs/home/create_client', params)
+  }
+};
+
+export { backend }

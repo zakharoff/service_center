@@ -6,7 +6,7 @@
 
 <script>
   import Navbar from 'components/navbar.vue'
-  import { axiosUser } from 'api/index.js'
+  import { backend } from 'api/index.js'
 
   export default {
     data: function () {
@@ -20,7 +20,7 @@
     },
     methods: {
       fetchUser() {
-        axiosUser('/clients/home/user')
+        backend.client.current()
           .then(response => {
             this.user = response.data.user
           })

@@ -8,7 +8,7 @@
 <script>
   import Navbar from 'components/navbar.vue'
   import Dashboard from 'staff/components/dashboard.vue'
-  import { axiosUser } from 'api/index.js'
+  import { backend } from 'api/index.js'
 
   export default {
     data: function () {
@@ -22,7 +22,7 @@
     },
     methods: {
       fetchUser() {
-        axiosUser('/staffs/home/user')
+        backend.staff.current()
           .then(response => {
             this.user = response.data.user
           })
