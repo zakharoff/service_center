@@ -21,8 +21,9 @@ Rails.application.routes.draw do
     end
   end
   namespace :staffs do
-    resources :home, only: [:index]do
+    resources :home, only: [:index] do
       get :user, on: :collection
+      get :clients, on: :collection
     end
   end
 end

@@ -6,8 +6,9 @@
         input(v-model.trim="fullname" placeholder="Client full name")
         input(v-model.trim="phone" placeholder="Client phone")
         input(v-model.trim="email" placeholder="Client email" type="email")
+        input(v-model.trim="password" placeholder="Client password (minimum 8 char)")
       .action
-        button(v-if="showFields" @click="sendForm") Submit
+        button(v-if="showFields" @click="sendForm" type="button") Submit
     hr
     section(class="clients")
       h2 List of clients
@@ -21,6 +22,7 @@
 
 <script>
   import Client from './client.vue'
+  import { axiosUser } from 'api/index.js'
 
   let reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,})$/
 
@@ -30,36 +32,39 @@
         fullname: '',
         phone: '',
         email: '',
-        clients: [
-          {
-            id: 1,
-            fullname: 'Bob Derp',
-            phone: '123321',
-            email: 'bob@derp.com'
-          },
-          {
-            id: 2,
-            fullname: 'Foo Bar',
-            phone: '098890',
-            email: 'foo@bar.com'
-          }
-        ]
+        password: '',
+        clients: []
       }
+    },
+    created() {
+      this.fetchClients()
     },
     computed: {
       showFields (){
-        return !!(this.checkFullName() && this.checkPhone() && this.checkEmail());
+        return !!(this.checkFullName() && this.checkPhone() && this.checkEmail() && this.checkPassword());
       }
     },
     methods: {
       checkFullName (handler = this.fullname) {
-        return !(handler === "" || handler.length < 5);
+        return !(handler === "" || handler.length < 5)
       },
       checkPhone (handler = this.phone) {
-        return !(handler === "" || !isFinite(handler) || handler.length < 6);
+        return !(handler === "" || !isFinite(handler) || handler.length < 6)
       },
       checkEmail (handler = this.email) {
-        return reg.test(handler) !== false;
+        return reg.test(handler) !== false
+      },
+      checkPassword (handler = this.password) {
+        return !(handler.length < 8)
+      },
+      fetchClients() {
+        axiosUser('/staffs/home/clients')
+          .then(response => {
+            this.clients = response.data
+          })
+          .catch(error => {
+            console.log(error)
+          })
       },
       sendForm() {
       }
