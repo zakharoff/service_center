@@ -67,6 +67,18 @@
           })
       },
       sendForm() {
+        backend.staff.createClient({
+          fullname: this.fullname,
+          email: this.email,
+          phone: this.phone,
+          password: this.password
+        })
+          .then(response => {
+            this.clients.push(response.data)
+          })
+          .catch(error => {
+            console.log(error)
+          })
       }
     },
     components: {

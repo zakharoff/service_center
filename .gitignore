@@ -33,10 +33,4 @@ yarn-debug.log*
 
 .idea
 
-config/webpack/.DS_Store
-
-app/.DS_Store
-
-app/views/.DS_Store
-
-app/views/staffs/.DS_Store
+.DS_Store

@@ -5,4 +5,7 @@ class Client < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   include DeviseTokenAuth::Concerns::User
+
+  validates :fullname, :phone, presence: true
+  validates :phone, numericality: { only_integer: true }
 end
