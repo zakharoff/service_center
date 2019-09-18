@@ -3,7 +3,7 @@
     ul(class="no-gutter")
       li
         .logo
-          img(src="https://img.icons8.com/ios/2x/settings.png" alt="logo" width="50px")
+          img(src="../assets/settings.png" alt="logo" width="50px")
       li
         .user
           span {{ user.email }}

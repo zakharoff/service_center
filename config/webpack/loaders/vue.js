@@ -6,4 +6,4 @@ module.exports = {
       scss: 'vue-style-loader!css-loader!sass-loader'
     }
   }
-}
+};
