@@ -23,8 +23,8 @@ Rails.application.routes.draw do
   namespace :staffs do
     resources :home, only: [:index] do
       get :user, on: :collection
-      get :clients, on: :collection
-      post :create_client, on: :collection
     end
+
+    resources :clients, only: %i[index create]
   end
 end

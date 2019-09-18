@@ -14,8 +14,8 @@ const backend = {
   },
   staff: {
     current: () => adapter.get('/staffs/home/user'),
-    clients: () => adapter.get('/staffs/home/clients'),
-    createClient: (params) => adapter.post('/staffs/home/create_client', params)
+    clients: () => adapter.get('/staffs/clients'),
+    createClient: (params) => adapter.post('/staffs/clients', params)
   }
 };
 
