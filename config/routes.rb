@@ -16,9 +16,15 @@ Rails.application.routes.draw do
   root "application#index"
 
   namespace :clients do
-    resources :home, only: [:index]
+    resources :home, only: [:index] do
+      get :user, on: :collection
+    end
   end
   namespace :staffs do
-    resources :home, only: [:index]
+    resources :home, only: [:index] do
+      get :user, on: :collection
+    end
+
+    resources :clients, only: %i[index create]
   end
 end

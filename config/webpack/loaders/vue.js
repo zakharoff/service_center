@@ -1,6 +1,9 @@
 module.exports = {
   test: /\.vue(\.erb)?$/,
-  use: [{
-    loader: 'vue-loader'
-  }]
-}
+  loader: 'vue-loader',
+  options: {
+    loaders: {
+      scss: 'vue-style-loader!css-loader!sass-loader'
+    }
+  }
+};

@@ -1,22 +1,50 @@
-<template>
-  <div id="app">
-    <p>{{ message }}</p>
-  </div>
+<template lang="pug">
+  #app
+    navbar(:user="user")
+    h1 {{ message }}
+    dashboard
 </template>
 
 <script>
-export default {
-  data: function () {
-    return {
-      message: "Hello staff!"
+  import Navbar from 'components/navbar.vue'
+  import Dashboard from 'staff/components/dashboard.vue'
+  import { backend } from 'api/index.js'
+
+  export default {
+    data: function () {
+      return {
+        user: {},
+        message: "Service center"
+      }
+    },
+    created() {
+      this.fetchUser()
+    },
+    methods: {
+      fetchUser() {
+        backend.staff.current()
+          .then(response => {
+            this.user = response.data.user
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      }
+    },
+    components: {
+      Navbar,
+      Dashboard
     }
   }
-}
 </script>
 
-<style scoped>
-p {
-  font-size: 2em;
-  text-align: center;
-}
+<style lang="scss">
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  h1 {
+    font-size: 2em;
+    text-align: center;
+  }
 </style>
