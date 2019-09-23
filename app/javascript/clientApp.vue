@@ -1,7 +1,8 @@
 <template lang="pug">
   #app
-    navbar(:user="user")
-    h1 {{ message }}
+    q-layout(view='hHh lpR fFf')
+      navbar(:user="user")
+      q-page-container
 </template>
 
 <script>
@@ -11,8 +12,7 @@
   export default {
     data: function () {
       return {
-        user: {},
-        message: "Service center"
+        user: {}
       }
     },
     created() {
@@ -36,12 +36,5 @@
 </script>
 
 <style lang="scss">
-  body {
-    margin: 0;
-    padding: 0;
-  }
-  h1 {
-      font-size: 2em;
-      text-align: center;
-  }
+
 </style>

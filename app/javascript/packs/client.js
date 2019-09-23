@@ -20,7 +20,10 @@ import {
   QHeader,
   QDrawer,
   QPageContainer,
-  QPage
+  QPage,
+  QToolbar,
+  QToolbarTitle,
+  QBtn
 } from 'quasar'
 
 Vue.use(Quasar, {
@@ -30,7 +33,10 @@ Vue.use(Quasar, {
     QHeader,
     QDrawer,
     QPageContainer,
-    QPage
+    QPage,
+    QToolbar,
+    QToolbarTitle,
+    QBtn
   },
   directives: {
   },
