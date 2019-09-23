@@ -1,5 +1,7 @@
 <template lang="pug">
-  section#dashboard
+  #loading(v-if="loading")
+    q-spinner-cube.fixed-center(color="brand" size="6em")
+  section#dashboard(v-else)
     #new-client
       h4.text-bold.q-my-md Create new client
       .form-wrapper.q-py-md
@@ -32,6 +34,7 @@
   export default {
     data: function () {
       return {
+        loading: true,
         submitting: false,
         columns: [
           { name: 'fullname', align: 'center', label: 'Full name', field: 'fullname' },
@@ -77,6 +80,7 @@
           .catch(error => {
             console.log(error)
           })
+          .finally(() => this.loading = false)
       },
       sendForm() {
         this.submitting = true
@@ -116,4 +120,6 @@
     font-size 20px
   td
     font-size 18px
+  .text-brand
+    color: rgb(20, 40, 160)
 </style>

@@ -26,7 +26,9 @@ import {
   QBtn,
   QForm,
   QInput,
-  QTable
+  QTable,
+  QSpinner,
+  QSpinnerCube
 } from 'quasar'
 
 Vue.use(Quasar, {
@@ -42,7 +44,9 @@ Vue.use(Quasar, {
     QBtn,
     QForm,
     QInput,
-    QTable
+    QTable,
+    QSpinner,
+    QSpinnerCube
   },
   directives: {
   },
