@@ -16,7 +16,10 @@ const backend = {
     current: () => adapter.get('/staffs/home/user'),
     clients: () => adapter.get('/staffs/clients'),
     createClient: (params) => adapter.post('/staffs/clients', params),
-    forms: () => adapter.get('/staffs/forms')
+    forms: () => adapter.get('/staffs/forms'),
+    organizations: () => adapter.get('/staffs/organizations'),
+    createOrganizations: (params) => adapter.post('/staffs/organizations', params),
+    destroyOrganizations: (id) => adapter.delete(`/staffs/organizations/${id}`)
   }
 };
 
