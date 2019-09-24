@@ -28,7 +28,7 @@
         q-table(flat dense separator="none" :data="organizations" :columns="columnsOrganizations")
           template(v-slot:body-cell-action="props")
             q-td(:props="props")
-              q-btn(flat icon="far fa-trash-alt" @click="deleteOrganization(props.row)" :ripple="false")
+              q-btn(flat icon="far fa-times-circle" @click="deleteOrganization(props.row)" :ripple="false")
     #client-block(v-else)
       #new-client
         h4.text-bold.q-my-md Create new client
@@ -43,8 +43,7 @@
               q-btn(:disable="!showBtn" outline @click="sendClient" :loading="submitting" :ripple="false" label="Submit")
       #clients
         h5.text-bold.q-my-md List of clients
-        q-table(flat dense separator="none" :pagination.sync="clientsPagination" :data="clients" :columns="columnsClients"
-          row-key="name")
+        q-table(flat dense separator="none" :pagination.sync="clientsPagination" :data="clients" :columns="columnsClients")
         //table
           tr
             th Full name
@@ -118,31 +117,19 @@
       },
       fetchClients() {
         backend.staff.clients()
-          .then(response => {
-            this.clients = response.data
-          })
-          .catch(error => {
-            console.log(error)
-          })
+          .then(response => this.clients = response.data)
+          .catch(error => console.log(error))
           .finally(() => this.loading = false)
       },
       fetchForms() {
         backend.staff.forms()
-          .then(response => {
-            this.forms = response.data
-          })
-          .catch(error => {
-            console.log(error)
-          })
+          .then(response => this.forms = response.data)
+          .catch(error => console.log(error))
       },
       fetchOrganizations() {
         backend.staff.organizations()
-          .then(response => {
-            this.organizations = response.data
-          })
-          .catch(error => {
-            console.log(error)
-          })
+          .then(response => this.organizations = response.data)
+          .catch(error => console.log(error))
       },
       sendClient() {
         this.submitting = true
@@ -189,12 +176,8 @@
       },
       deleteOrganization(row) {
         backend.staff.deleteOrganizations(row.id)
-          .then(() => {
-            this.organizations.splice(row.__index, 1)
-          })
-          .catch(error => {
-            console.log(error)
-          })
+          .then(() => this.organizations.splice(row.__index, 1))
+          .catch(error => console.log(error))
       }
     },
     components: {
