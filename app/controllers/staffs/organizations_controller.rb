@@ -29,6 +29,6 @@ class Staffs::OrganizationsController < ApplicationController
   private
 
   def organization_params
-    params.permit(:name, :form_id, :inn, :ogrn)
+    params.require(:organization).permit(:name, :form_id, :inn, :ogrn)
   end
 end

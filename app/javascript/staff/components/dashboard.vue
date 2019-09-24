@@ -2,27 +2,49 @@
   #loading(v-if="loading")
     q-spinner-cube.fixed-center(color="brand" size="6em")
   section#dashboard(v-else)
-    #new-client
-      h4.text-bold.q-my-md Create new client
-      .form-wrapper.q-py-md
-        q-form
-          .row.justify-center.q-col-gutter-lg
-            q-input(filled v-model.trim="fullname" label="Full name" hint="Client name and surname")
-            q-input(filled v-model.trim="phone" label="Phone" hint="Client phone")
-            q-input(filled v-model.trim="email" label="Email" type="email" hint="Client email")
-            q-input(filled v-model.trim="password" label="Password" hint="Client password (minimum 8 char)")
-          .row.justify-center.q-pt-lg
-            q-btn(:disable="!showBtn" outline @click="sendForm" :loading="submitting" :ripple="false" label="Submit")
-    #clients
-      h5.text-bold.q-my-md List of clients
-      q-table(flat dense separator="none" :pagination.sync="clientsPagination" :data="clients" :columns="columns"
-        row-key="name")
-      //table
-        tr
-          th Full name
-          th Number phone
-          th Email
-        client(v-for="client in clients" :client="client" :key="client.id")
+    q-toggle(v-model="visibleOrganization" keep-color color="black" label="Organizations" left-label)
+    #organization-block(v-if="visibleOrganization")
+      #new-organization
+        h4.text-bold.q-my-md Create new organization
+        .form-wrapper.q-my-md
+          q-form
+            .row.q-col-gutter-lg
+              .col-xs-12.col-sm-6.col-md-3
+                q-input(filled v-model.trim="name" label="Name" hint="Name of organization" lazy-rules
+                  :rules="[ val => val && val.length > 0 || 'Please press something']" ref="name")
+              .col-xs-12.col-sm-6.col-md-3
+                q-select(filled v-model="type" label="Type" hint="Type of organizations" :options="forms" lazy-rules
+                  :rules="[ val => val !== null && val !== '' || 'Please choose type' ]" ref="type")
+              .col-xs-12.col-sm-6.col-md-3
+                q-input(filled v-model.trim="inn" label="INN" hint="INN of organization" type="number" lazy-rules
+                  :rules="[ val => val.length == 6 || 'Press 6 integers']" ref="inn")
+              .col-xs-12.col-sm-6.col-md-3
+                q-input(filled v-model.trim="ogrn" label="OGRN" hint="OGRN of organization" type="number" lazy-rules
+                  :rules="[ val => val.length == 13 || 'Press 13 integers']" ref="ogrn")
+            .row.justify-center.q-pt-lg
+              q-btn(outline @click="sendOrganization" :loading="submitting" :ripple="false" label="Submit")
+    #client-block(v-else)
+      #new-client
+        h4.text-bold.q-my-md Create new client
+        .form-wrapper.q-py-md
+          q-form
+            .row.justify-center.q-col-gutter-lg
+              q-input(filled v-model.trim="fullname" label="Full name" hint="Client name and surname")
+              q-input(filled v-model.trim="phone" label="Phone" hint="Client phone")
+              q-input(filled v-model.trim="email" label="Email" hint="Client email" type="email")
+              q-input(filled v-model.trim="password" label="Password" hint="Client password (minimum 8 char)")
+            .row.justify-center.q-pt-lg
+              q-btn(:disable="!showBtn" outline @click="sendClient" :loading="submitting" :ripple="false" label="Submit")
+      #clients
+        h5.text-bold.q-my-md List of clients
+        q-table(flat dense separator="none" :pagination.sync="clientsPagination" :data="clients" :columns="columnsClients"
+          row-key="name")
+        //table
+          tr
+            th Full name
+            th Number phone
+            th Email
+          client(v-for="client in clients" :client="client" :key="client.id")
 </template>
 
 <script>
@@ -35,8 +57,9 @@
     data: function () {
       return {
         loading: true,
+        visibleOrganization: true,
         submitting: false,
-        columns: [
+        columnsClients: [
           { name: 'fullname', align: 'center', label: 'Full name', field: 'fullname' },
           { name: 'phone', align: 'center', label: 'Number phone', field: 'phone' },
           { name: 'email', align: 'center', label: 'Email', field: 'email' }
@@ -48,11 +71,18 @@
         phone: '',
         email: '',
         password: '',
-        clients: []
+        clients: [],
+        forms: [],
+        name: '',
+        type: '',
+        inn: '',
+        ogrn: '',
+        organizations: ''
       }
     },
     created() {
       this.fetchClients()
+      this.fetchForms()
     },
     computed: {
       showBtn (){
@@ -82,7 +112,16 @@
           })
           .finally(() => this.loading = false)
       },
-      sendForm() {
+      fetchForms() {
+        backend.staff.forms()
+          .then(response => {
+            this.forms = response.data
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      },
+      sendClient() {
         this.submitting = true
 
         backend.staff.createClient({
@@ -99,6 +138,31 @@
             console.log(error)
             this.submitting = false
           })
+      },
+      sendOrganization() {
+        this.$refs.name.validate()
+        this.$refs.type.validate()
+        this.$refs.inn.validate()
+        this.$refs.ogrn.validate()
+
+        if (this.$refs.name.hasError || this.$refs.type.hasError || this.$refs.inn.hasError || this.$refs.ogrn.hasError) {
+          this.formHasError = true
+        } else {
+          backend.staff.createOrganizations({
+            name: this.name,
+            form_id: this.type.value,
+            inn: this.inn,
+            ogrn: this.ogrn
+          })
+            .then(response => {
+              console.log(response.data)
+              this.submitting = false
+            })
+            .catch(error => {
+              console.log(error)
+              this.submitting = false
+            })
+        }
       }
     },
     components: {

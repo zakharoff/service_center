@@ -1,4 +1,4 @@
 json.array! @forms do |form|
-  json.id form.id
-  json.form form.form
+  json.value form.id
+  json.label form.form
 end

@@ -28,7 +28,9 @@ import {
   QInput,
   QTable,
   QSpinner,
-  QSpinnerCube
+  QSpinnerCube,
+  QToggle,
+  QSelect
 } from 'quasar'
 
 Vue.use(Quasar, {
@@ -46,7 +48,9 @@ Vue.use(Quasar, {
     QInput,
     QTable,
     QSpinner,
-    QSpinnerCube
+    QSpinnerCube,
+    QToggle,
+    QSelect
   },
   directives: {
   },
