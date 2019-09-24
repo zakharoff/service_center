@@ -26,6 +26,9 @@
       #organizations
         h5.text-bold.q-my-md List of organizations
         q-table(flat dense separator="none" :data="organizations" :columns="columnsOrganizations")
+          template(v-slot:body-cell-action="props")
+            q-td(:props="props")
+              q-btn(flat icon="far fa-trash-alt" @click="deleteOrganization(props.row)" :ripple="false")
     #client-block(v-else)
       #new-client
         h4.text-bold.q-my-md Create new client
@@ -71,7 +74,8 @@
           { name: 'name', align: 'center', label: 'Name', field: 'name' },
           { name: 'form', align: 'center', label: 'Type of organization', field: 'form' },
           { name: 'inn', align: 'center', label: 'INN', field: 'inn' },
-          { name: 'ogrn', align: 'center', label: 'OGRN', field: 'ogrn' }
+          { name: 'ogrn', align: 'center', label: 'OGRN', field: 'ogrn' },
+          { name: 'action', align: 'center', label: 'Action' }
         ],
         clientsPagination: {
           rowsPerPage: 10
@@ -182,6 +186,15 @@
               this.submitting = false
             })
         }
+      },
+      deleteOrganization(row) {
+        backend.staff.deleteOrganizations(row.id)
+          .then(() => {
+            this.organizations.splice(row.__index, 1)
+          })
+          .catch(error => {
+            console.log(error)
+          })
       }
     },
     components: {

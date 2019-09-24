@@ -26,7 +26,7 @@ class Staffs::OrganizationsController < ApplicationController
     @organization = Organization.find(params[:id])
 
     if @organization.destroy
-      render json: @organization, status: :accepted
+      render json: "Deleted", status: :accepted
     else
       render json: @organization.errors, status: :unprocessable_entity
     end
