@@ -9,7 +9,14 @@ class Staffs::OrganizationsController < ApplicationController
     @organization = Organization.new(organization_params)
 
     if @organization.save
-      render json: @organization, status: :created
+      form = Form.find(@organization.form_id)
+      render json: {
+          id: @organization.id,
+          name: @organization.name,
+          form: form.form,
+          inn: @organization.inn,
+          ogrn: @organization.ogrn
+      }, status: :created
     else
       render json: @organization.errors, status: :unprocessable_entity
     end

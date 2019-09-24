@@ -23,6 +23,9 @@
                   :rules="[ val => val.length == 13 || 'Press 13 integers']" ref="ogrn")
             .row.justify-center.q-pt-lg
               q-btn(outline @click="sendOrganization" :loading="submitting" :ripple="false" label="Submit")
+      #organizations
+        h5.text-bold.q-my-md List of organizations
+        q-table(flat dense separator="none" :data="organizations" :columns="columnsOrganizations")
     #client-block(v-else)
       #new-client
         h4.text-bold.q-my-md Create new client
@@ -64,6 +67,12 @@
           { name: 'phone', align: 'center', label: 'Number phone', field: 'phone' },
           { name: 'email', align: 'center', label: 'Email', field: 'email' }
         ],
+        columnsOrganizations: [
+          { name: 'name', align: 'center', label: 'Name', field: 'name' },
+          { name: 'form', align: 'center', label: 'Type of organization', field: 'form' },
+          { name: 'inn', align: 'center', label: 'INN', field: 'inn' },
+          { name: 'ogrn', align: 'center', label: 'OGRN', field: 'ogrn' }
+        ],
         clientsPagination: {
           rowsPerPage: 10
         },
@@ -77,12 +86,13 @@
         type: '',
         inn: '',
         ogrn: '',
-        organizations: ''
+        organizations: []
       }
     },
     created() {
       this.fetchClients()
       this.fetchForms()
+      this.fetchOrganizations()
     },
     computed: {
       showBtn (){
@@ -116,6 +126,15 @@
         backend.staff.forms()
           .then(response => {
             this.forms = response.data
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      },
+      fetchOrganizations() {
+        backend.staff.organizations()
+          .then(response => {
+            this.organizations = response.data
           })
           .catch(error => {
             console.log(error)
@@ -155,7 +174,7 @@
             ogrn: this.ogrn
           })
             .then(response => {
-              console.log(response.data)
+              this.organizations.push(response.data)
               this.submitting = false
             })
             .catch(error => {
