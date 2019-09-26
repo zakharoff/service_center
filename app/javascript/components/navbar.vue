@@ -2,12 +2,27 @@
   #navbar
     q-header.bg-white.text-black(bordered)
       q-toolbar.h-100
-        q-btn.hov-col(flat @click="drawer = !drawer" icon="fas fa-bars fa-2x" :ripple="false")
-        q-toolbar-title.text-center.text-bold.brand
-          | Best service
-        a.text-black(:href="user.exit_link" data-method="delete")
-          q-btn.hov-col(flat icon="fas fa-sign-out-alt fa-2x" :ripple="false")
-    q-drawer(v-model="drawer" overlay bordered)
+        q-btn.hov-col(
+          flat
+          @click="drawer = !drawer"
+          icon="fas fa-bars fa-2x"
+          :ripple="false"
+        )
+        q-toolbar-title.text-center.text-bold.brand Best service
+        a.text-black(
+          :href="user.exit_link"
+          data-method="delete"
+        )
+          q-btn.hov-col(
+            flat
+            icon="fas fa-sign-out-alt fa-2x"
+            :ripple="false"
+          )
+    q-drawer(
+      v-model="drawer"
+      overlay
+      bordered
+    )
       .text-center.q-pt-lg
         i.fas.fa-user.fa-4x
         .q-py-md {{ user.email }}
