@@ -22,6 +22,7 @@
   import { backend } from '../../../api/index'
 
   export default {
+    props: ['organization'],
     data: function () {
       return {
         columnsOrganizations: [
@@ -36,6 +37,11 @@
     },
     created() {
       this.fetchOrganizations()
+    },
+    watch: {
+      organization(val) {
+        this.organizations.push(val)
+      }
     },
     methods: {
       fetchOrganizations() {
