@@ -1,34 +1,96 @@
 <template lang="pug">
-  section(class="dashboard")
-    h2 Create new client
-    form
-      .group
-        input(v-model.trim="fullname" placeholder="Client full name")
-        input(v-model.trim="phone" placeholder="Client phone")
-        input(v-model.trim="email" placeholder="Client email" type="email")
-        input(v-model.trim="password" placeholder="Client password (minimum 8 char)")
-      .action
-        button(v-if="showFields" @click="sendForm" type="button") Submit
-    hr
-    section(class="clients")
-      h2 List of clients
-      table
-        tr
-          th Full name
-          th Number phone
-          th Email
-        client(v-for="client in clients" :client="client" :key="client.id")
+  #loading(v-if="loading")
+    q-spinner-cube.fixed-center(color="brand" size="6em")
+  section#dashboard(v-else)
+    q-toggle(
+      v-model="visibleOrganization"
+      keep-color color="black"
+      label="Organizations"
+      left-label
+    )
+    #organization-block(v-if="visibleOrganization")
+      form-organization(@push-organization="pushOrganization")
+      list-organizations
+    #client-block(v-else)
+      #new-client
+        h4.text-bold.q-my-md Create new client
+        .form-wrapper.q-py-md
+          q-form
+            .row.justify-center.q-col-gutter-lg
+              q-input(
+                filled
+                v-model.trim="fullname"
+                label="Full name"
+                hint="Client name and surname"
+              )
+              q-input(
+                filled
+                v-model.trim="phone"
+                label="Phone"
+                hint="Client phone"
+              )
+              q-input(
+                filled
+                v-model.trim="email"
+                label="Email"
+                hint="Client email"
+                type="email"
+              )
+              q-input(
+                filled
+                v-model.trim="password"
+                label="Password"
+                hint="Client password (minimum 8 char)"
+              )
+            .row.justify-center.q-pt-lg
+              q-btn(
+                outline
+                :ripple="false"
+                label="Submit"
+                :disable="!showBtn"
+                @click="sendClient"
+                :loading="submitting"
+                )
+      #clients
+        h5.text-bold.q-my-md List of clients
+        q-table(
+          flat
+          dense
+          separator="none"
+          :pagination.sync="clientsPagination"
+          :data="clients"
+          :columns="columnsClients"
+        )
+        //table
+          tr
+            th Full name
+            th Number phone
+            th Email
+          client(v-for="client in clients" :client="client" :key="client.id")
 </template>
 
 <script>
   import Client from './client.vue'
-  import { backend } from 'api/index.js'
+  import FormOrganization from './organization/form.vue'
+  import ListOrganizations from './organization/list.vue'
+  import { backend } from '../../api/index'
 
   let reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,})$/
 
   export default {
     data: function () {
       return {
+        loading: true,
+        submitting: false,
+        visibleOrganization: true,
+        columnsClients: [
+          { name: 'fullname', align: 'center', label: 'Full name', field: 'fullname' },
+          { name: 'phone', align: 'center', label: 'Number phone', field: 'phone' },
+          { name: 'email', align: 'center', label: 'Email', field: 'email' }
+        ],
+        clientsPagination: {
+          rowsPerPage: 10
+        },
         fullname: '',
         phone: '',
         email: '',
@@ -40,7 +102,7 @@
       this.fetchClients()
     },
     computed: {
-      showFields (){
+      showBtn (){
         return !!(this.checkFullName() && this.checkPhone() && this.checkEmail() && this.checkPassword());
       }
     },
@@ -59,14 +121,13 @@
       },
       fetchClients() {
         backend.staff.clients()
-          .then(response => {
-            this.clients = response.data
-          })
-          .catch(error => {
-            console.log(error)
-          })
+          .then(response => this.clients = response.data)
+          .catch(error => console.log(error))
+          .finally(() => this.loading = false)
       },
-      sendForm() {
+      sendClient() {
+        this.submitting = true
+
         backend.staff.createClient({
           fullname: this.fullname,
           email: this.email,
@@ -75,68 +136,38 @@
         })
           .then(response => {
             this.clients.push(response.data)
+            this.submitting = false
           })
           .catch(error => {
             console.log(error)
+            this.submitting = false
           })
-      }
+      },
+      pushOrganization(organization) {
+        this.organizations.push(organization)
+      },
     },
     components: {
-      Client
+      Client,
+      FormOrganization,
+      ListOrganizations
     }
   }
 </script>
 
-<style lang="scss">
-  h2 {
-    text-align: center;
-  }
-  input {
-    display: block;
-    padding: 10px;
-    font-size: 18px;
-    width: 250px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .action {
-    text-align: center;
-  }
-  button {
-    margin:22px 22px;
-    font-weight: bold;
-    text-transform: uppercase;
-    text-decoration: none;
-    background: #ffffff;
-    padding: 10px 30px;
-    border: 1px solid;
-    display: inline-block;
-    transition: all 0.4s ease 0s;
-  }
-  button:hover {
-    color: #ffffff !important;
-    background: #517AA3;
-    border-color: #517AA3 !important;
-    transition: all 0.4s ease 0s;
-  }
-  hr {
-    margin: 10px 10px;
-  }
-  section.clients {
-    margin-right: 20%;
-    margin-left: 20%;
-  }
-  table {
-    width: 100%;
-  }
-  tr {
-    line-height: 40px;
-    text-align: center;
-  }
-  th {
-    font-size: 20px;
-  }
-  td {
-    font-size: 18px;
-  }
+<style lang="stylus">
+  .clients
+    margin-right 20%
+    margin-left 20%
+  table
+    width 100%
+  tr
+    line-height 40px
+    text-align center
+  th
+    font-size 20px
+  td
+    font-size 18px
+  .text-brand
+    color: rgb(20, 40, 160)
 </style>

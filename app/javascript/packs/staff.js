@@ -8,6 +8,8 @@
 import Vue from 'vue'
 import App from '../staffApp.vue'
 
+import Quasar from '../staff/quasar/index'
+
 document.addEventListener('DOMContentLoaded', () => {
   const app = new Vue({
     render: h => h(App)

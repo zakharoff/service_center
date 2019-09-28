@@ -5,15 +5,15 @@
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
-  <%= stylesheet_link_tag 'application', media: 'all' %>
-  <%= javascript_pack_tag 'application' %>
-  <%= javascript_pack_tag 'client' %>
-
   <p class="notice"><%= notice %></p>
   <p class="alert"><%= alert %></p>
 </head>
 
 <body>
 <%= yield %>
+
+<%= stylesheet_link_tag 'application', media: 'all' %>
+<%= javascript_pack_tag 'application' %>
+<%= javascript_pack_tag 'client' %>
 </body>
 </html>

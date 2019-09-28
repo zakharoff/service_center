@@ -26,5 +26,7 @@ Rails.application.routes.draw do
     end
 
     resources :clients, only: %i[index create]
+    resources :forms, only: [:index]
+    resources :organizations, only: %i[index create destroy]
   end
 end
