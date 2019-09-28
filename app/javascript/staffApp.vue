@@ -3,8 +3,9 @@
     q-layout(view='hHh lpR fFf')
       navbar(:user="user")
       q-page-container
-        .doc-page
-          dashboard
+        q-page
+          .doc-page
+            router-view
 </template>
 
 <script>

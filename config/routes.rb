@@ -29,4 +29,6 @@ Rails.application.routes.draw do
     resources :forms, only: [:index]
     resources :organizations, only: %i[index create destroy]
   end
+
+  get '/*slug', to: 'staffs/home#index'
 end
