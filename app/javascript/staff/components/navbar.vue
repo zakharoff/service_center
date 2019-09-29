@@ -42,8 +42,13 @@
           router-link.navigate(:to="{ name: 'organizations' }")
             q-item(clickable)
               q-item-section(avatar)
-                q-icon(name="fas fas fa-portrait")
+                q-icon(name="fas fa-briefcase")
               q-item-section Organizations
+          router-link.navigate(:to="{ name: 'staffs' }")
+            q-item(clickable)
+              q-item-section(avatar)
+                q-icon(name="fas fa-users-cog")
+              q-item-section Staffs
 </template>
 
 <script>

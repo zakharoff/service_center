@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 import Dashboard from '../staff/components/dashboard'
+import Staffs from '../staff/components/staff/index'
 import Clients from '../staff/components/client/index'
 import Organizations from '../staff/components/organization/index'
 
@@ -16,6 +17,9 @@ export default new VueRouter({
     },
     {
       path: '/dashboard', name: 'dashboard', component: Dashboard
+    },
+    {
+      path: '/staffs', name: 'staffs', component: Staffs
     },
     {
       path: '/clients', name: 'clients', component: Clients
