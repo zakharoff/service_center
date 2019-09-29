@@ -3,7 +3,6 @@
     h5.text-bold.q-my-md List of organizations
     q-table(
       flat
-      dense
       separator="none"
       :data="organizations"
       :columns="columnsOrganizations"
