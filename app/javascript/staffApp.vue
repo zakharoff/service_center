@@ -9,7 +9,7 @@
 </template>
 
 <script>
-  import Navbar from 'components/navbar.vue'
+  import Navbar from 'staff/components/navbar.vue'
   import Dashboard from 'staff/components/dashboard.vue'
   import { backend } from 'api/index.js'
 

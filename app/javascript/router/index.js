@@ -15,13 +15,13 @@ export default new VueRouter({
       path: '*', redirect: '/dashboard'
     },
     {
-      path: '/dashboard', component: Dashboard
+      path: '/dashboard', name: 'dashboard', component: Dashboard
     },
     {
-      path: '/clients', component: Clients
+      path: '/clients', name: 'clients', component: Clients
     },
     {
-      path: '/organizations', component: Organizations
+      path: '/organizations', name: 'organizations', component: Organizations
     }
   ]
 })

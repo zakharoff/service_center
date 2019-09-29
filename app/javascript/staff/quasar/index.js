@@ -23,7 +23,12 @@ import {
   QTd,
   QSpinnerCube,
   QToggle,
-  QSelect
+  QSelect,
+  QList,
+  QItem,
+  QItemSection,
+  QIcon,
+  QScrollArea
 } from 'quasar'
 
 Vue.use(Quasar, {
@@ -44,7 +49,12 @@ Vue.use(Quasar, {
     QTd,
     QSpinnerCube,
     QToggle,
-    QSelect
+    QSelect,
+    QList,
+    QItem,
+    QItemSection,
+    QIcon,
+    QScrollArea
   },
   directives: {
   },
