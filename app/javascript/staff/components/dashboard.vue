@@ -6,10 +6,7 @@
 </template>
 
 <script>
-  import FormOrganization from './organization/form.vue'
-  import ListOrganizations from './organization/list.vue'
   import { backend } from '../../api/index'
-
 
   export default {
     data: function () {
@@ -18,8 +15,6 @@
       }
     },
     components: {
-      FormOrganization,
-      ListOrganizations
     }
   }
 </script>

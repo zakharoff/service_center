@@ -65,8 +65,7 @@
         fullname: '',
         phone: '',
         email: '',
-        password: '',
-        clients: []
+        password: ''
       }
     },
     methods: {

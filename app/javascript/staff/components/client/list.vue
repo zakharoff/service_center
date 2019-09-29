@@ -17,7 +17,6 @@
     props: ['client'],
     data: function () {
       return {
-        submitting: false,
         columnsClients: [
           { name: 'fullname', align: 'center', label: 'Full name', field: 'fullname' },
           { name: 'phone', align: 'center', label: 'Number phone', field: 'phone' },
@@ -42,7 +41,6 @@
         backend.staff.clients()
           .then(response => this.clients = response.data)
           .catch(error => console.log(error))
-          .finally(() => this.loading = false)
       },
     }
   }
