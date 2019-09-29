@@ -20,7 +20,9 @@
           )
     q-drawer(
       v-model="drawer"
-      overlay
+      show-if-above
+      :width="250"
+      :breakpoint="800"
       bordered
     )
       q-scroll-area.fit
@@ -29,26 +31,38 @@
           .q-py-md {{ user.email }}
         hr
         q-list(padding)
-          router-link.navigate(:to="{ name: 'dashboard' }")
-            q-item(clickable)
-              q-item-section(avatar)
-                q-icon(name="fas fa-tachometer-alt")
-              q-item-section Dashboard
-          router-link.navigate(:to="{ name: 'clients' }")
-            q-item(clickable)
-              q-item-section(avatar)
-                  q-icon(name="fas fa-users")
-              q-item-section Clients
-          router-link.navigate(:to="{ name: 'organizations' }")
-            q-item(clickable)
-              q-item-section(avatar)
-                q-icon(name="fas fa-briefcase")
-              q-item-section Organizations
-          router-link.navigate(:to="{ name: 'staffs' }")
-            q-item(clickable)
-              q-item-section(avatar)
-                q-icon(name="fas fa-users-cog")
-              q-item-section Staffs
+          q-item(
+            clickable
+            :to="{ name: 'dashboard' }"
+            active-class="my-menu-link"
+          )
+            q-item-section(avatar)
+              q-icon(name="fas fa-tachometer-alt")
+            q-item-section Dashboard
+          q-item(
+            clickable
+            :to="{ name: 'clients' }"
+            active-class="my-menu-link"
+          )
+            q-item-section(avatar)
+                q-icon(name="fas fa-users")
+            q-item-section Clients
+          q-item(
+            clickable
+            :to="{ name: 'organizations' }"
+            active-class="my-menu-link"
+          )
+            q-item-section(avatar)
+              q-icon(name="fas fa-briefcase")
+            q-item-section Organizations
+          q-item(
+            clickable
+            :to="{ name: 'staffs' }"
+            active-class="my-menu-link"
+          )
+            q-item-section(avatar)
+              q-icon(name="fas fa-users-cog")
+            q-item-section Staffs
 </template>
 
 <script>
@@ -72,8 +86,9 @@
     i
       color black
   .brand
-    color: rgb(20, 40, 160)
-  .navigate
-    text-decoration none
-    color black
+    color rgb(20, 40, 160)
+  hr
+    border 0.5px solid rgba(0,0,0,0.12)
+  .my-menu-link
+    background #eee!important
 </style>
