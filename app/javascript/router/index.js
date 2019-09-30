@@ -5,6 +5,7 @@ Vue.use(VueRouter)
 
 import Dashboard from '../staff/components/dashboard'
 import Staffs from '../staff/components/staff/index'
+import Staff from '../staff/components/staff/staff'
 import Clients from '../staff/components/client/index'
 import Client from '../staff/components/client/client'
 import Organizations from '../staff/components/organization/index'
@@ -21,6 +22,9 @@ export default new VueRouter({
     },
     {
       path: '/staffs', name: 'staffs', component: Staffs
+    },
+    {
+      path: '/staffs/:id', name: 'staff', component: Staff
     },
     {
       path: '/clients', name: 'clients', component: Clients

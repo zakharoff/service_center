@@ -15,6 +15,20 @@ class Staffs::StaffsController < ApplicationController
     end
   end
 
+  def show
+    @staff = Staff.find(params[:id])
+  end
+
+  def update
+    @staff ||= Staff.find(params[:id])
+
+    if @staff.update(staff_params)
+      render json: @staff, status: :ok
+    else
+      render json: @staff.errors, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def staff_params

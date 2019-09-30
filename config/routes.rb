@@ -25,7 +25,7 @@ Rails.application.routes.draw do
       get :user, on: :collection
     end
 
-    resources :staffs, only: %i[index create]
+    resources :staffs, only: %i[index create show update]
     resources :clients, only: %i[index create show update]
     resources :forms, only: [:index]
     resources :organizations, only: %i[index create destroy]
