@@ -19,6 +19,7 @@ const backend = {
     createStaff: (params) => adapter.post('/staffs/staffs', params),
     createClient: (params) => adapter.post('/staffs/clients', params),
     showClient: (id) => adapter.get(`/staffs/clients/${id}`),
+    updateCLient: (params) => adapter.patch(`/staffs/clients/${params.id}`, params),
     forms: () => adapter.get('/staffs/forms'),
     organizations: () => adapter.get('/staffs/organizations'),
     createOrganizations: (params) => adapter.post('/staffs/organizations', params),
