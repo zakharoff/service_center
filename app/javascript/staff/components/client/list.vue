@@ -8,6 +8,14 @@
       :data="clients"
       :columns="columnsClients"
     )
+      template(v-slot:body-cell-action="props")
+        q-td(:props="props")
+          q-btn(
+            flat
+            icon="fas fa-pen-square"
+            @click="show(props.row.id)"
+            :ripple="false"
+          )
 </template>
 
 <script>
@@ -20,7 +28,8 @@
         columnsClients: [
           { name: 'fullname', align: 'center', label: 'Full name', field: 'fullname' },
           { name: 'phone', align: 'center', label: 'Number phone', field: 'phone' },
-          { name: 'email', align: 'center', label: 'Email', field: 'email' }
+          { name: 'email', align: 'center', label: 'Email', field: 'email' },
+          { name: 'action', align: 'center', label: 'Action' }
         ],
         clientsPagination: {
           rowsPerPage: 10
@@ -42,6 +51,9 @@
           .then(response => this.clients = response.data)
           .catch(error => console.log(error))
       },
+      show(id) {
+        this.$router.push({ name: 'client', params: { id: id } })
+      }
     }
   }
 </script>
