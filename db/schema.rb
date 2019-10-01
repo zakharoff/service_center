@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_01_093405) do
+ActiveRecord::Schema.define(version: 2019_10_01_184308) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,12 +33,23 @@ ActiveRecord::Schema.define(version: 2019_10_01_093405) do
     t.index ["uid", "provider"], name: "index_clients_on_uid_and_provider", unique: true
   end
 
+  create_table "clients_organizations", force: :cascade do |t|
+    t.bigint "client_id", null: false
+    t.bigint "organization_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["client_id"], name: "index_clients_organizations_on_client_id"
+    t.index ["organization_id"], name: "index_clients_organizations_on_organization_id"
+  end
+
   create_table "devices", force: :cascade do |t|
     t.string "name", null: false
     t.bigint "type_device_id"
     t.string "serial_num", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "organization_id"
+    t.index ["organization_id"], name: "index_devices_on_organization_id"
     t.index ["type_device_id"], name: "index_devices_on_type_device_id"
   end
 
@@ -80,4 +91,7 @@ ActiveRecord::Schema.define(version: 2019_10_01_093405) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "clients_organizations", "clients"
+  add_foreign_key "clients_organizations", "organizations"
+  add_foreign_key "devices", "organizations"
 end

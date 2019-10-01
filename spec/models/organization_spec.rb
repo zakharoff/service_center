@@ -2,6 +2,9 @@ require 'rails_helper'
 
 RSpec.describe Organization, type: :model do
   it { should belong_to :form }
+  it { should have_many :devices }
+  it { should have_many(:clients_organizations).dependent(:destroy) }
+  it { should have_many(:clients).through(:clients_organizations) }
 
   it { should validate_presence_of :name }
   it { should validate_presence_of :inn }
