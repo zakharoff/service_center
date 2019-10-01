@@ -29,6 +29,8 @@ Rails.application.routes.draw do
     resources :clients, only: %i[index create show update]
     resources :forms, only: [:index]
     resources :organizations, only: %i[index create destroy]
+    resources :type_devices, only: [:index]
+    resources :devices, only: [:index]
   end
 
   get '/*slug', to: 'staffs/home#index'
