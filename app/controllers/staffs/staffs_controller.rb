@@ -29,6 +29,17 @@ class Staffs::StaffsController < ApplicationController
     end
   end
 
+  def reset_password
+    new_password = params[:newPassword]
+    @staff = Staff.find(params[:id])
+
+    if @staff.reset_password(new_password, new_password)
+      render json: @staff, status: :ok
+    else
+      render json: @staff.errors, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def staff_params
