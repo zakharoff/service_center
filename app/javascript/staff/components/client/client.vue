@@ -32,7 +32,7 @@
               hint="Client email"
               type="email"
               lazy-rules
-              :rules="[val => !!val || 'Please press email']"
+              :rules="[emailRule]"
               ref="email"
             )
         .row.justify-center.q-pt-lg
@@ -51,6 +51,8 @@
   import Relation from "./relation.vue"
   import Password from "./password.vue"
   import { backend } from '../../../api/index'
+
+  let reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,})$/
 
   export default {
     data() {
@@ -71,6 +73,11 @@
       fetchClient() {
         backend.staff.showClient(this.id)
           .then(({ data }) => this.client = data)
+      },
+      emailRule(val) {
+        return new Promise((resolve, reject) => {
+          resolve((reg.test(val) !== false) || 'Please press email')
+        })
       },
       updateClient() {
         this.submitting = true

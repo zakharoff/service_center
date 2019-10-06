@@ -12,7 +12,7 @@
               hint="Staff email"
               type="email"
               lazy-rules
-              :rules="[val => !!val || 'Please press email']"
+              :rules="[emailRule]"
               ref="email"
             )
           .col-xs-12.col-sm-6
@@ -38,6 +38,8 @@
 <script>
   import { backend } from '../../../api/index'
 
+  let reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,})$/
+
   export default {
     data: function () {
       return {
@@ -47,6 +49,11 @@
       }
     },
     methods: {
+      emailRule(val) {
+        return new Promise((resolve, reject) => {
+          resolve((reg.test(val) !== false) || 'Please press email')
+        })
+      },
       sendStaff() {
         this.submitting = true
 

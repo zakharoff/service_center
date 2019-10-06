@@ -12,7 +12,7 @@
               hint="Staff email"
               type="email"
               lazy-rules
-              :rules="[val => !!val || 'Please press email']"
+              :rules="[emailRule]"
               ref="email"
             )
         .row.justify-center.q-pt-lg
@@ -29,6 +29,8 @@
 <script>
   import Password from "./password.vue"
   import { backend } from '../../../api/index'
+
+  let reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,})$/
 
   export default {
     data() {
@@ -49,6 +51,11 @@
       fetchStaff() {
         backend.staff.showStaff(this.id)
           .then(({data}) => this.staff = data)
+      },
+      emailRule(val) {
+        return new Promise((resolve, reject) => {
+          resolve((reg.test(val) !== false) || 'Please press email')
+        })
       },
       updateStaff() {
         this.submitting = true
