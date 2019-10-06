@@ -1,6 +1,6 @@
 <template lang="pug">
   #edit-client
-    h4.text-bold.q-my-md Edit client
+    h5.q-my-md Main info
     .form-wrapper.q-py-md
       q-form
         .row.q-col-gutter-lg
@@ -43,46 +43,20 @@
             :ripple="false"
             :loading="submitting"
           )
-    h5.text-bold.q-my-md Reset password
-    q-form
-      .row.q-col-gutter-lg
-        .col-xs-12.col-sm-6.col-md-5
-          q-input(
-            filled
-            :type="isPwd ? 'password' : 'text'"
-            v-model.trim="newPassword"
-            label="New password"
-            hint="Client password (minimum 8 char)"
-            :rules="[ val => val && val.length >= 8 || 'Please press minimum 8 char']"
-            ref="newPassword"
-          )
-            template(v-slot:append)
-              q-icon(
-                :name="isPwd ? 'fas fa-eye-slash' : 'fas fa-eye'"
-                class="cursor-pointer"
-                @click="isPwd = !isPwd"
-              )
-      .row.q-pt-lg
-        .col-xs-12.col-sm-6.col-md-5.text-center
-          q-btn(
-            outline
-            @click="updatePassword"
-            label="Submit"
-            :ripple="false"
-            :loading="submitting"
-          )
+    relation(:id="id")
+    password(:id="id")
 </template>
 
 <script>
+  import Relation from "./relation.vue"
+  import Password from "./password.vue"
   import { backend } from '../../../api/index'
 
   export default {
     data() {
       return {
         submitting: false,
-        client: {},
-        isPwd: true,
-        newPassword: ''
+        client: {}
       }
     },
     computed: {
@@ -115,7 +89,7 @@
               email: this.client.email,
               phone: this.client.phone,
             })
-            .then(response => {
+            .then(() => {
               this.fetchClient()
               this.submitting = false
             })
@@ -124,29 +98,11 @@
               this.submitting = false
             })
         }
-      },
-      updatePassword() {
-        this.submitting = true
-
-        this.$refs.newPassword.validate()
-
-        if (this.$refs.newPassword.hasError) {
-          this.formHasError = true
-          this.submitting = false
-        } else {
-          backend.staff.updatePasswordClient({
-            id: this.id,
-            newPassword: this.newPassword
-          })
-            .then(response => {
-              this.submitting = false
-            })
-            .catch(error => {
-              console.log(error)
-              this.submitting = false
-            })
-        }
       }
+    },
+    components: {
+      Relation,
+      Password
     }
   }
 </script>
