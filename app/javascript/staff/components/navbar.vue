@@ -4,6 +4,7 @@
       q-toolbar.h-100
         q-btn.hov-col(
           flat
+          fab
           @click="drawer = !drawer"
           icon="fas fa-bars fa-2x"
           :ripple="false"
@@ -15,6 +16,7 @@
         )
           q-btn.hov-col(
             flat
+            fab
             icon="fas fa-sign-out-alt fa-2x"
             :ripple="false"
           )

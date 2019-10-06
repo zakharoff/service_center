@@ -1,21 +1,30 @@
 <template lang="pug">
-  q-dialog(v-model="alert")
-    q-card
-      q-card-section
-        .text-h6 Alert
-      q-card-section
-        slot
-      q-card-actions(align="right")
-        q-btn(flat label="OK" color="primary" v-close-popup @click="$router.go(-1)")
+  q-dialog(
+    :value="true"
+    @hide="$router.go(-1)"
+    full-width
+    full-height
+    transition-show="scale"
+    transition-hide="fade"
+  )
+    q-card.column.full-height.full-width
+      q-card-section.row.items-center
+        h1.text-h4.text-bold.q-gutter-none.q-mb-none
+          slot(name="header")
+        .q-space
+        q-btn(
+          icon="fas fa-times"
+          flat
+          fab
+          :ripple="false"
+          v-close-popup
+        )
+      q-card-section.col
+        slot(name="content")
 </template>
 
 <script>
   export default {
-    data() {
-      return {
-        alert: true
-      }
-    }
   }
 </script>
 

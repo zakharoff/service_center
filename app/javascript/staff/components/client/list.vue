@@ -12,13 +12,20 @@
         q-td(:props="props")
           q-btn(
             flat
+            fab-mini
             icon="fas fa-pen-square"
-            @click="show(props.row.id)"
+            @click="$router.push({name: 'client', params: { id: props.row.id }})"
             :ripple="false"
           )
+    modal(v-if="showModal")
+      template(#header)
+        | Edit client
+      template(#content)
+        router-view(name="client")
 </template>
 
 <script>
+  import Modal from '../modal.vue'
   import { backend } from '../../../api/index'
 
   export default {
@@ -34,7 +41,8 @@
         clientsPagination: {
           rowsPerPage: 10
         },
-        clients: []
+        clients: [],
+        showModal: this.$route.meta.showModal
       }
     },
     created() {
@@ -43,17 +51,20 @@
     watch: {
       client(val) {
         this.clients.push(val)
+      },
+      '$route.meta' ({showModal}) {
+        this.showModal = showModal
       }
     },
     methods: {
       fetchClients() {
         backend.staff.clients()
-          .then(response => this.clients = response.data)
+          .then(({ data }) => this.clients = data)
           .catch(error => console.log(error))
-      },
-      show(id) {
-        this.$router.push({ name: 'client', params: { id: id } })
       }
+    },
+    components: {
+      Modal
     }
   }
 </script>

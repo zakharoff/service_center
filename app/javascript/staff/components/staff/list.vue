@@ -11,13 +11,20 @@
         q-td(:props="props")
           q-btn(
             flat
+            fab-mini
             icon="fas fa-pen-square"
-            @click="show(props.row.id)"
+            @click="$router.push({name: 'staff', params: { id: props.row.id }})"
             :ripple="false"
           )
+    modal(v-if="showModal")
+      template(#header)
+        | Edit staff
+      template(#content)
+        router-view(name="staff")
 </template>
 
 <script>
+  import Modal from '../modal.vue'
   import { backend } from '../../../api/index'
 
   export default {
@@ -28,7 +35,8 @@
           { name: 'email', align: 'center', label: 'Email', field: 'email' },
           { name: 'action', align: 'center', label: 'Action' }
         ],
-        staffs: []
+        staffs: [],
+        showModal: this.$route.meta.showModal
       }
     },
     created() {
@@ -37,21 +45,28 @@
     watch: {
       staff(val) {
         this.staffs.push(val)
+      },
+      '$route.meta' ({showModal}) {
+        this.showModal = showModal
       }
     },
     methods: {
       fetchStaffs() {
         backend.staff.staffs()
-          .then(response => this.staffs = response.data)
+          .then(({ data }) => this.staffs = data)
           .catch(error => console.log(error))
-      },
-      show(id) {
-        this.$router.push({ name: 'staff', params: { id: id } })
       }
+    },
+    components: {
+      Modal
     }
   }
 </script>
 
 <style lang="stylus">
-
+  td button i
+    color #BBBBBB
+  td button:hover
+    i
+      color black
 </style>

@@ -21,16 +21,32 @@ export default new VueRouter({
       path: '/dashboard', name: 'dashboard', component: Dashboard
     },
     {
-      path: '/staffs', name: 'staffs', component: Staffs
+      path: '/staffs',
+      name: 'staffs',
+      component: Staffs,
+      meta: { showModal: false },
+      children: [
+        {
+          path: '/staffs/:id/edit',
+          name: 'staff',
+          components: { staff: Staff },
+          meta: { showModal: true }
+        }
+      ]
     },
     {
-      path: '/staffs/:id', name: 'staff', component: Staff
-    },
-    {
-      path: '/clients', name: 'clients', component: Clients
-    },
-    {
-      path: '/clients/:id', name: 'client', component: Client
+      path: '/clients',
+      name: 'clients',
+      component: Clients,
+      meta: { showModal: false },
+      children: [
+        {
+          path: '/clients/:id/edit',
+          name: 'client',
+          components: { client: Client },
+          meta: { showModal: true }
+        }
+      ]
     },
     {
       path: '/organizations', name: 'organizations', component: Organizations

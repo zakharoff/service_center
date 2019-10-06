@@ -28,7 +28,12 @@ import {
   QItem,
   QItemSection,
   QIcon,
-  QScrollArea
+  QScrollArea,
+  QDialog,
+  ClosePopup,
+  QCard,
+  QCardSection,
+  QCardActions
 } from 'quasar'
 
 Vue.use(Quasar, {
@@ -54,9 +59,14 @@ Vue.use(Quasar, {
     QItem,
     QItemSection,
     QIcon,
-    QScrollArea
+    QScrollArea,
+    QDialog,
+    QCard,
+    QCardSection,
+    QCardActions
   },
   directives: {
+    ClosePopup
   },
   iconSet: iconSet,
   plugins: {
