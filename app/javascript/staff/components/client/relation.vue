@@ -6,14 +6,16 @@
         .col-xs-12.col-sm-6.col-md-6
           q-select(
             filled
-            v-model="organization"
+            multiple
+            v-model="organizationsSelected"
             label="Organization"
             hint="Select organization"
             :options="organizations"
             option-value="id"
             option-label="name"
-            :rules="[ val => val !== null && val !== '' || 'Please choose organization' ]"
-            ref="organization"
+            lazy-rules
+            :rules="[ val => val !== null && val !== '' && val.length > 0 || 'Please choose organization' ]"
+            ref="organizationsSelected"
           )
       .row.q-pt-lg
         .col-xs-12.col-sm-6.col-md-5.text-center
@@ -30,16 +32,21 @@
   import { backend } from '../../../api/index'
 
   export default {
-    props: ['id'],
+    props: ['id', 'clientOrganizations'],
     data() {
       return {
         submitting: false,
-        organization: '',
+        organizationsSelected: [],
         organizations: []
       }
     },
     created() {
       this.fetchOrganizations()
+    },
+    watch: {
+      clientOrganizations() {
+        this.organizationsSelected = this.clientOrganizations
+      }
     },
     methods: {
       fetchOrganizations() {
@@ -47,7 +54,27 @@
           .then(({ data }) => this.organizations = data)
           .catch(error => console.log(error))
       },
-      updateClientOrganization() {}
+      updateClientOrganization() {
+        this.submitting = true
+        this.$refs.organizationsSelected.validate()
+
+        if (this.$refs.organizationsSelected.hasError) {
+          this.formHasError = true
+          this.submitting = false
+        } else {
+          this.organizationsSelected.forEach(
+            (organization) => {
+              backend.staff.createClientsOrganizations({
+                client_id: this.id,
+                organization_id: organization.id
+              })
+                .then(({data}) => console.log(data))
+                .catch(error => console.log(error))
+            }
+          )
+          this.submitting = false
+        }
+      }
     }
   }
 </script>

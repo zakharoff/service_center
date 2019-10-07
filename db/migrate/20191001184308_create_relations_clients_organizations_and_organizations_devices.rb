@@ -7,6 +7,8 @@ class CreateRelationsClientsOrganizationsAndOrganizationsDevices < ActiveRecord:
       t.timestamps
     end
 
+    add_index :clients_organizations, [:client_id, :organization_id], unique: true
+
     add_reference :devices, :organization, foreign_key: true
   end
 end

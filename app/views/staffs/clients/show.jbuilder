@@ -1,1 +1,1 @@
-json.extract! @client, :fullname, :phone, :email
+json.extract! @client, :fullname, :phone, :email, :organizations

@@ -35,6 +35,7 @@ Rails.application.routes.draw do
     resources :organizations, only: %i[index create destroy]
     resources :type_devices, only: [:index]
     resources :devices, only: [:index]
+    resources :clients_organizations, only: [:create]
   end
 
   get '/*slug', to: 'staffs/home#index'

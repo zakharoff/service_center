@@ -43,7 +43,7 @@
             :ripple="false"
             :loading="submitting"
           )
-    relation(:id="id")
+    relation(:id="id" :clientOrganizations="client.organizations")
     password(:id="id")
 </template>
 

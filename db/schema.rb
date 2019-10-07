@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 2019_10_01_184308) do
     t.bigint "organization_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["client_id", "organization_id"], name: "index_clients_organizations_on_client_id_and_organization_id", unique: true
     t.index ["client_id"], name: "index_clients_organizations_on_client_id"
     t.index ["organization_id"], name: "index_clients_organizations_on_organization_id"
   end
