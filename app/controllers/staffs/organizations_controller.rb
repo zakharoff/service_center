@@ -22,6 +22,22 @@ class Staffs::OrganizationsController < ApplicationController
     end
   end
 
+  def show
+    @organization = Organization.find(params[:id])
+  end
+
+  def update
+    @organization ||= Organization.find(params[:id])
+
+    @organization.device_ids = params[:device_id] if params[:device_id]
+
+    if @organization.update(organization_params)
+      render json: @organization, status: :ok
+    else
+      render json: @organization.errors, status: :unprocessable_entity
+    end
+  end
+
   def destroy
     @organization = Organization.find(params[:id])
 
@@ -36,6 +52,6 @@ class Staffs::OrganizationsController < ApplicationController
   private
 
   def organization_params
-    params.require(:organization).permit(:name, :form_id, :inn, :ogrn)
+    params.require(:organization).permit(:id, :name, :form_id, :inn, :ogrn)
   end
 end

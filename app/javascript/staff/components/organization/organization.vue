@@ -1,0 +1,155 @@
+<template lang="pug">
+  #edit-organization
+    h5.q-my-md Main info
+    .form-wrapper.q-py-md
+      q-form
+        .row.q-col-gutter-lg
+          .col-xs-6.col-sm-6.col-md-6
+            q-input(
+              filled
+              v-model.trim="organization.name"
+              label="Name"
+              hint="Name of organization"
+              lazy-rules
+              :rules="[ val => val && val.length > 0 || 'Please press something']"
+              ref="name"
+            )
+          .col-xs-12.col-sm-6.col-md-6
+            q-select(
+              filled
+              multiple
+              v-model="devicesSelected"
+              label="Devices"
+              hint="Select devices"
+              :options="devices"
+              option-value="id"
+              option-label="name"
+            )
+        .row.q-col-gutter-lg
+          .col-xs-12.col-sm-4.col-md-4
+            q-input(
+              filled
+              v-model="organization.form"
+              label="Type"
+              hint="Type of organizations"
+              disable
+              readonly
+            )
+          .col-xs-12.col-sm-4.col-md-4
+            q-input(
+              filled
+              v-model="organization.inn"
+              label="INN"
+              hint="INN of organization"
+              disable
+              readonly
+            )
+          .col-xs-12.col-sm-4.col-md-4
+            q-input(filled
+              v-model="organization.ogrn"
+              label="OGRN"
+              hint="OGRN of organization"
+              disable
+              readonly
+            )
+        .row.justify-center.q-pt-lg
+          q-btn(
+            outline
+            @click="update"
+            label="Submit"
+            :ripple="false"
+            :loading="submitting"
+          )
+    .absolute-bottom-left.q-ml-md.q-mb-lg
+      h5.q-my-md Options
+      q-btn(
+        outline
+        label="Delete organization"
+        icon-right="far fa-times-circle"
+        @click="deleteOrganization"
+        :ripple="false"
+      )
+</template>
+
+<script>
+  import { backend } from '../../../api/index'
+
+  export default {
+    data() {
+      return {
+        submitting: false,
+        organization: {},
+        devices: [],
+        devicesSelected: []
+      }
+    },
+    computed: {
+      id() {
+        return this.$route.params.id
+      }
+    },
+    watch: {
+      organization() {
+        this.devicesSelected = this.organization.devices
+      }
+    },
+    created() {
+      this.fetchOrganization()
+      this.fetchDevices()
+    },
+    methods: {
+      fetchOrganization() {
+        backend.staff.showOrganization(this.id)
+          .then(({ data }) => this.organization = data)
+      },
+      fetchDevices() {
+        backend.staff.devices()
+          .then(({ data }) => this.devices = data)
+      },
+      updateOrganization(deviseID) {
+        backend.staff.updateOrganization({
+          id: this.id,
+          name: this.organization.name,
+          device_id: deviseID
+        })
+          .then(response => {
+            this.fetchOrganization()
+            this.submitting = false
+          })
+          .catch(error => {
+            console.log(error)
+            this.submitting = false
+          })
+      },
+      update() {
+        this.submitting = true
+
+        this.$refs.name.validate()
+
+        if (this.$refs.name.hasError) {
+          this.formHasError = true
+          this.submitting = false
+        } else {
+
+          if (this.devicesSelected.length <= 0) {
+            this.updateOrganization(null)
+          }
+          this.devicesSelected.forEach(
+            (device) => {
+              this.updateOrganization(device.id)
+            }
+          )
+        }
+      },
+      deleteOrganization() {
+        backend.staff.deleteOrganization(this.id)
+          .then(() => this.$router.go(-1))
+          .catch(error => console.log(error))
+      }
+    }
+  }
+</script>
+
+<style lang="stylus">
+
+</style>

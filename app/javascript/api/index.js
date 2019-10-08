@@ -14,21 +14,24 @@ const backend = {
   },
   staff: {
     current: () => adapter.get('/staffs/home/user'),
-    clients: () => adapter.get('/staffs/clients'),
     staffs: () => adapter.get('/staffs/staffs'),
     createStaff: (params) => adapter.post('/staffs/staffs', params),
     showStaff: (id) => adapter.get(`/staffs/staffs/${id}`),
     updateStaff: (params) => adapter.patch(`/staffs/staffs/${params.id}`, params),
     updatePasswordStaff: (params) => adapter.patch(`staffs/staffs/${params.id}/reset_password`, params),
+    clients: () => adapter.get('/staffs/clients'),
     createClient: (params) => adapter.post('/staffs/clients', params),
     showClient: (id) => adapter.get(`/staffs/clients/${id}`),
     updateClient: (params) => adapter.patch(`/staffs/clients/${params.id}`, params),
     updatePasswordClient: (params) => adapter.patch(`staffs/clients/${params.id}/reset_password`, params),
     forms: () => adapter.get('/staffs/forms'),
     organizations: () => adapter.get('/staffs/organizations'),
-    createOrganizations: (params) => adapter.post('/staffs/organizations', params),
-    deleteOrganizations: (id) => adapter.delete(`/staffs/organizations/${id}`),
-    createClientsOrganizations: (params) => adapter.post('/staffs/clients_organizations', params)
+    createOrganization: (params) => adapter.post('/staffs/organizations', params),
+    showOrganization: (id) => adapter.get(`/staffs/organizations/${id}`),
+    updateOrganization: (params) => adapter.patch(`/staffs/organizations/${params.id}`, params),
+    deleteOrganization: (id) => adapter.delete(`/staffs/organizations/${id}`),
+    createClientsOrganizations: (params) => adapter.post('/staffs/clients_organizations', params),
+    devices: () => adapter.get('/staffs/devices')
   }
 };
 

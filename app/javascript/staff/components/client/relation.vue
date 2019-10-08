@@ -68,7 +68,6 @@
                 client_id: this.id,
                 organization_id: organization.id
               })
-                .then(({data}) => console.log(data))
                 .catch(error => console.log(error))
             }
           )

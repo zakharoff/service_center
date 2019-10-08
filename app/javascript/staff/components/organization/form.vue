@@ -90,7 +90,7 @@
           this.formHasError = true
           this.submitting = false
         } else {
-          backend.staff.createOrganizations({
+          backend.staff.createOrganization({
             name: this.name,
             form_id: this.type.value,
             inn: this.inn,
