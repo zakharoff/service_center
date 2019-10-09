@@ -30,7 +30,6 @@ const backend = {
     showOrganization: (id) => adapter.get(`/staffs/organizations/${id}`),
     updateOrganization: (params) => adapter.patch(`/staffs/organizations/${params.id}`, params),
     deleteOrganization: (id) => adapter.delete(`/staffs/organizations/${id}`),
-    createClientsOrganizations: (params) => adapter.post('/staffs/clients_organizations', params),
     devices: () => adapter.get('/staffs/devices')
   }
 };

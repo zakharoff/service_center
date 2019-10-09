@@ -43,6 +43,6 @@ class Staffs::ClientsController < ApplicationController
   private
 
   def client_params
-    params.permit(:email, :fullname, :phone, :password)
+    params.permit(:email, :fullname, :phone, :password, organization_ids: [])
   end
 end

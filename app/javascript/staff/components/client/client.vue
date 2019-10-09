@@ -35,6 +35,19 @@
               :rules="[emailRule]"
               ref="email"
             )
+        h5.q-my-md Add relations
+        .row.q-col-gutter-lg
+          .col-xs-12.col-sm-6.col-md-6
+            q-select(
+              filled
+              multiple
+              v-model="organizationsSelected"
+              label="Organization"
+              hint="Select organization"
+              :options="organizations"
+              option-value="id"
+              option-label="name"
+            )
         .row.justify-center.q-pt-lg
           q-btn(
             outline
@@ -43,12 +56,10 @@
             :ripple="false"
             :loading="submitting"
           )
-    relation(:id="id" :clientOrganizations="client.organizations")
     password(:id="id")
 </template>
 
 <script>
-  import Relation from "./relation.vue"
   import Password from "./password.vue"
   import { backend } from '../../../api/index'
 
@@ -58,21 +69,37 @@
     data() {
       return {
         submitting: false,
-        client: {}
+        client: {},
+        organizations: [],
+        organizationsSelected: []
       }
     },
     computed: {
       id() {
         return this.$route.params.id
+      },
+      organizationIds() {
+        return this.organizationsSelected.map(({ id }) => id)
+      }
+    },
+    watch: {
+      client() {
+        this.organizationsSelected = this.client.organizations
       }
     },
     created() {
       this.fetchClient()
+      this.fetchOrganizations()
     },
     methods: {
       fetchClient() {
         backend.staff.showClient(this.id)
           .then(({ data }) => this.client = data)
+      },
+      fetchOrganizations() {
+        backend.staff.organizations()
+          .then(({ data }) => this.organizations = data)
+          .catch(error => console.log(error))
       },
       emailRule(val) {
         return new Promise((resolve, reject) => {
@@ -95,6 +122,7 @@
               fullname: this.client.fullname,
               email: this.client.email,
               phone: this.client.phone,
+              organization_ids: this.organizationIds
             })
             .then(() => {
               this.fetchClient()
@@ -108,7 +136,6 @@
       }
     },
     components: {
-      Relation,
       Password
     }
   }
