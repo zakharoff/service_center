@@ -52,10 +52,23 @@
               disable
               readonly
             )
+        h5.q-my-md Add relations
+        .row.q-col-gutter-lg
+          .col-xs-12.col-sm-6.col-md-6
+            q-select(
+              filled
+              multiple
+              v-model="clientsSelected"
+              label="Client"
+              hint="Select client"
+              :options="clients"
+              option-value="id"
+              option-label="fullname"
+            )
         .row.justify-center.q-pt-lg
           q-btn(
             outline
-            @click="update"
+            @click="updateOrganization"
             label="Submit"
             :ripple="false"
             :loading="submitting"
@@ -80,22 +93,32 @@
         submitting: false,
         organization: {},
         devices: [],
-        devicesSelected: []
+        devicesSelected: [],
+        clients: [],
+        clientsSelected: []
       }
     },
     computed: {
       id() {
         return this.$route.params.id
+      },
+      deviceIds() {
+        return this.devicesSelected.map(({ id }) => id)
+      },
+      clientIds() {
+        return this.clientsSelected.map(({ id }) => id)
       }
     },
     watch: {
       organization() {
         this.devicesSelected = this.organization.devices
+        this.clientsSelected = this.organization.clients
       }
     },
     created() {
       this.fetchOrganization()
       this.fetchDevices()
+      this.fetchClients()
     },
     methods: {
       fetchOrganization() {
@@ -106,39 +129,32 @@
         backend.staff.devices()
           .then(({ data }) => this.devices = data)
       },
-      updateOrganization(deviseID) {
-        backend.staff.updateOrganization({
-          id: this.id,
-          name: this.organization.name,
-          device_id: deviseID
-        })
-          .then(response => {
-            this.fetchOrganization()
-            this.submitting = false
-          })
-          .catch(error => {
-            console.log(error)
-            this.submitting = false
-          })
+      fetchClients() {
+        backend.staff.clients()
+          .then(({ data }) => this.clients = data)
       },
-      update() {
+      updateOrganization() {
         this.submitting = true
-
         this.$refs.name.validate()
 
         if (this.$refs.name.hasError) {
           this.formHasError = true
           this.submitting = false
         } else {
-
-          if (this.devicesSelected.length <= 0) {
-            this.updateOrganization(null)
-          }
-          this.devicesSelected.forEach(
-            (device) => {
-              this.updateOrganization(device.id)
-            }
-          )
+          backend.staff.updateOrganization({
+            id: this.id,
+            name: this.organization.name,
+            device_ids: this.deviceIds,
+            client_ids: this.clientIds
+          })
+            .then(response => {
+              this.fetchOrganization()
+              this.submitting = false
+            })
+            .catch(error => {
+              console.log(error)
+              this.submitting = false
+            })
         }
       },
       deleteOrganization() {

@@ -29,8 +29,6 @@ class Staffs::OrganizationsController < ApplicationController
   def update
     @organization ||= Organization.find(params[:id])
 
-    @organization.device_ids = params[:device_id] if params[:device_id]
-
     if @organization.update(organization_params)
       render json: @organization, status: :ok
     else
@@ -52,6 +50,6 @@ class Staffs::OrganizationsController < ApplicationController
   private
 
   def organization_params
-    params.require(:organization).permit(:id, :name, :form_id, :inn, :ogrn)
+    params.permit(:name, :form_id, :inn, :ogrn, device_ids: [], client_ids: [])
   end
 end

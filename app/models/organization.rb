@@ -1,6 +1,6 @@
 class Organization < ApplicationRecord
   belongs_to :form
-  has_many :devices
+  has_many :devices, dependent: :nullify
   has_many :clients_organizations, dependent: :destroy
   has_many :clients, through: :clients_organizations
 
