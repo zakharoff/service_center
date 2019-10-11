@@ -10,11 +10,13 @@ import App from '../staffApp.vue'
 
 import Quasar from '../staff/quasar/index'
 import router from '../router/index'
+import store from '../store/index'
 
 document.addEventListener('DOMContentLoaded', () => {
   const app = new Vue({
     render: h => h(App),
-    router
+    router,
+    store
   }).$mount()
   document.body.appendChild(app.$el)
 
