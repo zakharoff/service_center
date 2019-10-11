@@ -52,7 +52,7 @@
               disable
               readonly
             )
-        h5.q-my-md Add relations
+        .text-subtitle1.q-my-md Add relations
         .row.q-col-gutter-lg
           .col-xs-12.col-sm-6.col-md-6
             q-select(
