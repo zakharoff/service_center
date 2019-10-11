@@ -3,7 +3,6 @@
     h5.text-bold.q-my-md List of organizations
     q-table(
       flat
-      dense
       separator="none"
       :data="organizations"
       :columns="columnsOrganizations"
@@ -12,16 +11,23 @@
         q-td(:props="props")
           q-btn(
             flat
-            icon="far fa-times-circle"
-            @click="deleteOrganization(props.row)"
+            icon="fas fa-pen-square"
+            @click="$router.push({name: 'organization', params: { id: props.row.id }})"
             :ripple="false"
           )
+    modal(v-if="showModal")
+      template(#header)
+        | Edit organization
+      template(#content)
+        router-view(name="organization")
 </template>
 
 <script>
+  import Modal from '../modal.vue'
   import { backend } from '../../../api/index'
 
   export default {
+    props: ['organization'],
     data: function () {
       return {
         columnsOrganizations: [
@@ -31,23 +37,30 @@
           { name: 'ogrn', align: 'center', label: 'OGRN', field: 'ogrn' },
           { name: 'action', align: 'center', label: 'Action' }
         ],
-        organizations: []
+        organizations: [],
+        showModal: this.$route.meta.showModal
       }
     },
     created() {
       this.fetchOrganizations()
+    },
+    watch: {
+      organization(val) {
+        this.organizations.push(val)
+      },
+      '$route.meta' ({showModal}) {
+        this.showModal = showModal
+      }
     },
     methods: {
       fetchOrganizations() {
         backend.staff.organizations()
           .then(response => this.organizations = response.data)
           .catch(error => console.log(error))
-      },
-      deleteOrganization(row) {
-        backend.staff.deleteOrganizations(row.id)
-          .then(() => this.organizations.splice(row.__index, 1))
-          .catch(error => console.log(error))
       }
+    },
+    components: {
+      Modal
     }
   }
 </script>

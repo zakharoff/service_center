@@ -79,6 +79,8 @@
           .catch(error => console.log(error))
       },
       sendOrganization() {
+        this.submitting = true
+
         this.$refs.name.validate()
         this.$refs.type.validate()
         this.$refs.inn.validate()
@@ -86,8 +88,9 @@
 
         if (this.$refs.name.hasError || this.$refs.type.hasError || this.$refs.inn.hasError || this.$refs.ogrn.hasError) {
           this.formHasError = true
+          this.submitting = false
         } else {
-          backend.staff.createOrganizations({
+          backend.staff.createOrganization({
             name: this.name,
             form_id: this.type.value,
             inn: this.inn,

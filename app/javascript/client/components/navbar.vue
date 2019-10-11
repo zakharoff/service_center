@@ -24,7 +24,7 @@
       bordered
     )
       .text-center.q-pt-lg
-        i.fas.fa-user.fa-4x
+        i.fas.fa-user-circle.fa-4x
         .q-py-md {{ user.email }}
 </template>
 

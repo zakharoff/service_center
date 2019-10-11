@@ -3,12 +3,13 @@
     q-layout(view='hHh lpR fFf')
       navbar(:user="user")
       q-page-container
-        .doc-page
-          dashboard
+        q-page
+          .doc-page
+            router-view
 </template>
 
 <script>
-  import Navbar from 'components/navbar.vue'
+  import Navbar from 'staff/components/navbar.vue'
   import Dashboard from 'staff/components/dashboard.vue'
   import { backend } from 'api/index.js'
 

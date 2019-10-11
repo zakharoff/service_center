@@ -25,8 +25,17 @@ Rails.application.routes.draw do
       get :user, on: :collection
     end
 
-    resources :clients, only: %i[index create]
+    resources :staffs, only: %i[index create show update]do
+      patch :reset_password, on: :member
+    end
+    resources :clients, only: %i[index create show update] do
+      patch :reset_password, on: :member
+    end
     resources :forms, only: [:index]
-    resources :organizations, only: %i[index create destroy]
+    resources :organizations, only: %i[index show create update destroy]
+    resources :type_devices, only: [:index]
+    resources :devices, only: [:index]
   end
+
+  get '/*slug', to: 'staffs/home#index'
 end

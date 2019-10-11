@@ -23,7 +23,17 @@ import {
   QTd,
   QSpinnerCube,
   QToggle,
-  QSelect
+  QSelect,
+  QList,
+  QItem,
+  QItemSection,
+  QIcon,
+  QScrollArea,
+  QDialog,
+  ClosePopup,
+  QCard,
+  QCardSection,
+  QCardActions
 } from 'quasar'
 
 Vue.use(Quasar, {
@@ -44,9 +54,19 @@ Vue.use(Quasar, {
     QTd,
     QSpinnerCube,
     QToggle,
-    QSelect
+    QSelect,
+    QList,
+    QItem,
+    QItemSection,
+    QIcon,
+    QScrollArea,
+    QDialog,
+    QCard,
+    QCardSection,
+    QCardActions
   },
   directives: {
+    ClosePopup
   },
   iconSet: iconSet,
   plugins: {

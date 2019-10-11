@@ -6,6 +6,8 @@ class Client < ApplicationRecord
 
   include DeviseTokenAuth::Concerns::User
 
+  has_many :clients_organizations, dependent: :destroy
+  has_many :organizations, through: :clients_organizations
+
   validates :fullname, :phone, presence: true
-  validates :phone, numericality: { only_integer: true }
 end

@@ -15,9 +15,34 @@ class Staffs::ClientsController < ApplicationController
     end
   end
 
+  def show
+    @client = Client.find(params[:id])
+  end
+
+  def update
+    @client ||= Client.find(params[:id])
+
+    if @client.update(client_params)
+      render json: @client, status: :ok
+    else
+      render json: @client.errors, status: :unprocessable_entity
+    end
+  end
+
+  def reset_password
+    new_password = params[:newPassword]
+    @client = Client.find(params[:id])
+
+    if @client.reset_password(new_password, new_password)
+      render json: @client, status: :ok
+    else
+      render json: @client.errors, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def client_params
-    params.permit(:email, :fullname, :phone, :password)
+    params.permit(:email, :fullname, :phone, :password, organization_ids: [])
   end
 end

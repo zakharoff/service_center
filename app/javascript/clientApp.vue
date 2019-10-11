@@ -6,7 +6,7 @@
 </template>
 
 <script>
-  import Navbar from 'components/navbar.vue'
+  import Navbar from 'client/components/navbar.vue'
   import { backend } from 'api/index.js'
 
   export default {
