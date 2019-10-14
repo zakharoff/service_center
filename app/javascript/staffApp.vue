@@ -39,9 +39,15 @@
 
 <style lang="stylus">
   .doc-page
-    padding 10px 180px
-    font-weight 300
+    padding 10px 30px
+    font-weight 400
     max-width 1500px
     margin-left auto
     margin-right auto
+
+  @media (max-width: 1100px)
+    .doc-page
+      padding 10px
+
+
 </style>

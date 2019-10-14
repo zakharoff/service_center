@@ -24,7 +24,7 @@
       v-model="drawer"
       show-if-above
       :width="250"
-      :breakpoint="800"
+      :breakpoint="1100"
       bordered
     )
       q-scroll-area.fit
