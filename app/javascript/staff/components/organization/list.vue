@@ -80,6 +80,17 @@
     components: {
       OrganizationFilter,
       Modal
+    },
+    channels: {
+      OrganizationsChannel: {
+        received(data) {
+          this.refresh()
+        },
+      },
+
+    },
+    mounted() {
+      this.$cable.subscribe({ channel: 'OrganizationsChannel' })
     }
   }
 </script>
