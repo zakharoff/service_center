@@ -2,7 +2,12 @@ class Staffs::OrganizationsController < ApplicationController
   before_action :authenticate_staff!
 
   def index
-    @organizations = Organization.all
+    filter = params[:filter]
+    if filter.blank?
+      @organizations = Organization.all
+    else
+      @organizations = Organization.search(filter)
+    end
   end
 
   def create

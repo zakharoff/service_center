@@ -1,4 +1,6 @@
 class Organization < ApplicationRecord
+  include PgSearch::Model
+
   belongs_to :form
   has_many :devices, dependent: :nullify
   has_many :clients_organizations, dependent: :destroy
@@ -8,4 +10,13 @@ class Organization < ApplicationRecord
   validates :inn, :ogrn, numericality: { only_integer: true }
   validates :inn, length: { is: 6 }
   validates :ogrn, length: { is: 13 }
+
+  pg_search_scope :search_by, against: %i[name inn ogrn], using: {
+      tsearch: { prefix: true }
+  }
+
+  def self.search(query)
+    return [] unless query
+    search_by("#{query}")
+  end
 end
