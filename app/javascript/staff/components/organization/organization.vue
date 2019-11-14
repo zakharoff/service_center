@@ -74,7 +74,7 @@
             :loading="submitting"
           )
     .absolute-bottom-left.q-ml-md.q-mb-lg
-      h5.q-my-md Options
+      h5.text-bold.q-my-md Options
       q-btn(
         outline
         label="Delete organization"

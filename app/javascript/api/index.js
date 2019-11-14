@@ -25,7 +25,7 @@ const backend = {
     updateClient: (params) => adapter.patch(`/staffs/clients/${params.id}`, params),
     updatePasswordClient: (params) => adapter.patch(`staffs/clients/${params.id}/reset_password`, params),
     forms: () => adapter.get('/staffs/forms'),
-    organizations: () => adapter.get('/staffs/organizations'),
+    organizations: (filter) => adapter.get('/staffs/organizations'+'?filter=' + filter),
     createOrganization: (params) => adapter.post('/staffs/organizations', params),
     showOrganization: (id) => adapter.get(`/staffs/organizations/${id}`),
     updateOrganization: (params) => adapter.patch(`/staffs/organizations/${params.id}`, params),

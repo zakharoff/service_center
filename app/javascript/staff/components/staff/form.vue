@@ -1,6 +1,6 @@
 <template lang="pug">
   #new-staff
-    h4.text-bold.q-my-md Create new staff
+    h5.text-bold.q-my-md Create new staff
     .form-wrapper.q-py-md
       q-form
         .row.q-col-gutter-lg

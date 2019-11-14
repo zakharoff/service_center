@@ -1,6 +1,6 @@
 <template lang="pug">
   #new-client
-    h4.text-bold.q-my-md Create new client
+    h5.text-bold.q-my-md Create new client
     .form-wrapper.q-py-md
       q-form
         .row.q-col-gutter-lg

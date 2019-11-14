@@ -1,11 +1,14 @@
 <template lang="pug">
   #organizations
     h5.text-bold.q-my-md List of organizations
-    q-table(
+    organization-filter
+    q-table.q-mt-sm(
       flat
       separator="none"
       :data="organizations"
       :columns="columnsOrganizations"
+      @request="onRequest"
+      ref="table"
     )
       template(v-slot:body-cell-action="props")
         q-td(:props="props")
@@ -23,6 +26,7 @@
 </template>
 
 <script>
+  import OrganizationFilter from './filter.vue'
   import Modal from '../modal.vue'
   import { backend } from '../../../api/index'
 
@@ -31,18 +35,23 @@
     data: function () {
       return {
         columnsOrganizations: [
-          { name: 'name', align: 'center', label: 'Name', field: 'name' },
-          { name: 'form', align: 'center', label: 'Type of organization', field: 'form' },
-          { name: 'inn', align: 'center', label: 'INN', field: 'inn' },
-          { name: 'ogrn', align: 'center', label: 'OGRN', field: 'ogrn' },
+          { name: 'name', align: 'center', label: 'Name', field: 'name', sortable: true },
+          { name: 'form', align: 'center', label: 'Type of organization', field: 'form', sortable: true },
+          { name: 'inn', align: 'center', label: 'INN', field: 'inn', sortable: true },
+          { name: 'ogrn', align: 'center', label: 'OGRN', field: 'ogrn', sortable: true },
           { name: 'action', align: 'center', label: 'Action' }
         ],
         organizations: [],
         showModal: this.$route.meta.showModal
       }
     },
+    computed: {
+      filter() {
+        return this.$store.state.filter
+      }
+    },
     created() {
-      this.fetchOrganizations()
+      this.fetchOrganizations('')
     },
     watch: {
       organization(val) {
@@ -50,17 +59,38 @@
       },
       '$route.meta' ({showModal}) {
         this.showModal = showModal
+      },
+      filter() {
+        this.refresh()
       }
     },
     methods: {
-      fetchOrganizations() {
-        backend.staff.organizations()
+      fetchOrganizations(filter) {
+        backend.staff.organizations(filter)
           .then(response => this.organizations = response.data)
           .catch(error => console.log(error))
+      },
+      onRequest() {
+        this.fetchOrganizations(this.filter)
+      },
+      refresh() {
+        this.$refs.table.requestServerInteraction()
       }
     },
     components: {
+      OrganizationFilter,
       Modal
+    },
+    channels: {
+      OrganizationsChannel: {
+        received(data) {
+          this.refresh()
+        },
+      },
+
+    },
+    mounted() {
+      this.$cable.subscribe({ channel: 'OrganizationsChannel' })
     }
   }
 </script>

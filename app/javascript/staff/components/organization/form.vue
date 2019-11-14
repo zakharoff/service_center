@@ -1,6 +1,6 @@
 <template lang="pug">
   #new-organization
-    h4.text-bold.q-my-md Create new organization
+    h5.text-bold.q-my-md Create new organization
     .form-wrapper.q-my-md
       q-form
         .row.q-col-gutter-lg
