@@ -11,7 +11,7 @@ import App from '../staffApp.vue'
 import Quasar from '../staff/quasar/index'
 import router from '../router/index'
 import store from '../store/index'
-import sockets from '../sockets/index'
+import '../sockets/index'
 
 document.addEventListener('DOMContentLoaded', () => {
   const app = new Vue({
